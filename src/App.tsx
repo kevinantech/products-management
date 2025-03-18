@@ -1,5 +1,5 @@
 import { Button, MenuItem, Select } from "@mui/material";
-import { ArrowDownUp, Plus } from "lucide-react";
+import { ArrowDownUp, Package, Plus } from "lucide-react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ProductForm } from "./components/ProductForm";
 import { ProductsTable } from "./components/ProductsTable";
@@ -75,7 +75,19 @@ function App() {
               />
             </button>
           </nav>
-          <ProductsTable />
+          {products.length === 0 ? (
+            <div className="flex flex-col items-center py-10 text-center">
+              <div className="mb-5 p-5 rounded-full text-white bg-blue-400">
+                <Package className="h-10 w-10 " />
+              </div>
+              <h3 className="mb-1 text-xl font-medium">No hay productos</h3>
+              <p className="text-gray-400">
+                Comience agregando su primer producto
+              </p>
+            </div>
+          ) : (
+            <ProductsTable />
+          )}
         </div>
         <p className="pt-3 pb-6 px-6 text-sm text-gray-600 bg-sky-50 bg-opacity-75">
           Total de productos: {products.length}

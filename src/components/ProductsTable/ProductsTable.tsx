@@ -1,6 +1,7 @@
 import { Eye, Trash2 } from "lucide-react";
 import { useContext } from "react";
 import { ProductsContext } from "../../contexts/Products";
+import { format } from "../../utils/format-date";
 import {
   Table,
   TableBody,
@@ -8,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/Table";
-import { format } from "../../utils/format-date";
 
 const cut = (str: string) =>
   str.length > 15 ? `${str.substring(0, 20).trim()}...` : str.trim();

@@ -1,6 +1,7 @@
 import { SelectChangeEvent } from "@mui/material";
-import { useMemo, useState } from "react";
-import { Product } from "../models/product";
+import { useEffect, useMemo, useState } from "react";
+import { Product, ProductSchema } from "../models/product";
+import { z } from "zod";
 
 export enum Sorting {
   ASC = "asc",
@@ -14,6 +15,18 @@ export enum Filter {
   DATE = "date",
 }
 
+const getProductsFromStorage = () => {
+  try {
+    const data = localStorage.getItem("products");
+    if (!data) return [];
+    const schema = z.array(ProductSchema).safeParse(JSON.parse(data));
+    return schema.success ? schema.data : [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_) {
+    return [];
+  }
+};
+
 const dateCast = (date: string) => new Date(date).getTime();
 
 /**
@@ -21,9 +34,13 @@ const dateCast = (date: string) => new Date(date).getTime();
  */
 export const useProducts = () => {
   const [_product, setProduct] = useState<Product>();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(getProductsFromStorage());
   const [filter, setFilter] = useState<Filter>(Filter.CODE);
   const [sort, setSort] = useState<Sorting>(Sorting.DESC);
+
+  useEffect(() => {
+    localStorage.setItem("products", JSON.stringify(products));
+  }, [products]);
 
   const _products = useMemo(() => {
     const _new = [...products];
