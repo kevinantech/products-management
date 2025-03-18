@@ -29,37 +29,37 @@ Selecciona el comando dependiendo del manejador de paquetes que utilices.
 
 3. **Instala las dependencias**
 
-```bash
-   npm install
-   pnpm install
-   yarn install
-```
+   ```bash
+      npm install
+      pnpm install
+      yarn install
+   ```
 
 4. **Ejecuta el servidor de desarrollo**
 
-```bash
-   npm run dev
-   pnpm dev
-   yarn dev
-```
+   ```bash
+      npm run dev
+      pnpm dev
+      yarn dev
+   ```
 
 ## Construccion y preview
 
 1. **Realiza el build**
 
-```bash
-   npm build
-   pnpm build
-   yarn build
-```
+   ```bash
+      npm build
+      pnpm build
+      yarn build
+   ```
 
 2. **Iniciar servidor de previsualización**
 
-```bash
-   npm preview
-   pnpm preview
-   yarn preview
-```
+   ```bash
+      npm preview
+      pnpm preview
+      yarn preview
+   ```
 
 ## Documentación y recursos utilizados.
 
