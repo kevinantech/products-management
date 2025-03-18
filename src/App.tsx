@@ -1,13 +1,36 @@
-import { Button } from "@mui/material";
+import { Button, MenuItem, Select } from "@mui/material";
 import { ArrowDownUp, Plus } from "lucide-react";
-import { useContext, useState } from "react";
-import { ProductsContext } from "./contexts/Products";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ProductForm } from "./components/ProductForm";
 import { ProductsTable } from "./components/ProductsTable";
+import { ProductsContext } from "./contexts/Products";
+import { Filter, Sorting } from "./hooks/useProducts";
+import { ProductView } from "./components/ProductView";
 
 function App() {
+  const {
+    products,
+    handleFilter,
+    filter,
+    handleSort,
+    sort,
+    product,
+    handleCloseProductView,
+  } = useContext(ProductsContext);
   const [isProductFormOpen, setProductFormOpen] = useState(false);
-  const { products } = useContext(ProductsContext);
+  const sortIconRef = useRef<SVGSVGElement>(null);
+
+  // Añade interactivadad al boton de ordenar asc/desc
+  useEffect(() => {
+    let rotateFlag = false;
+    if (sortIconRef.current) {
+      const icon = sortIconRef.current;
+      icon.addEventListener("click", () => {
+        icon.style.transform = rotateFlag ? "" : "rotate(180deg)";
+        rotateFlag = !rotateFlag;
+      });
+    }
+  }, []);
 
   return (
     <main className="container mx-auto p-8 md:px-0">
@@ -28,10 +51,28 @@ function App() {
           </Button>
         </div>
         <div className="p-6">
-          <nav className="flex items-center justify-end mb-4">
+          <nav className="flex gap-2 items-center justify-end mb-4">
             Ordenar por:
-            <button className="p-2 rounded border border-gray-200 transition-colors duration-200 hover:bg-sky-50 hover:bg-opacity-75">
-              <ArrowDownUp className="h-4 w-4" />
+            <Select
+              value={filter}
+              defaultValue={Filter.CODE}
+              onChange={handleFilter}
+              size="small"
+            >
+              <MenuItem value={Filter.CODE}>Código</MenuItem>
+              <MenuItem value={Filter.NAME}>Nombre</MenuItem>
+              <MenuItem value={Filter.QUANTITY}>Cantidad</MenuItem>
+              <MenuItem value={Filter.DATE}>Fecha</MenuItem>
+            </Select>
+            <button
+              title={sort === Sorting.ASC ? "Ascendente" : "Descendente"}
+              onClick={handleSort}
+              className="p-2 rounded border border-gray-200 transition-colors duration-200 hover:bg-sky-50 hover:bg-opacity-75"
+            >
+              <ArrowDownUp
+                ref={sortIconRef}
+                className="h-4 w-4 transition-transform duration-150 ease-in-out"
+              />
             </button>
           </nav>
           <ProductsTable />
@@ -43,6 +84,11 @@ function App() {
       <ProductForm
         open={isProductFormOpen}
         onClose={() => setProductFormOpen(false)}
+      />
+      <ProductView
+        open={!!product}
+        onClose={handleCloseProductView}
+        product={product}
       />
     </main>
   );

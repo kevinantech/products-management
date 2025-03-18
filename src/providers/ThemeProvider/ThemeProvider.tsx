@@ -3,6 +3,7 @@ import {
   ThemeProvider as Provider,
   ThemeOptions,
 } from "@mui/material";
+import colors from "tailwindcss/colors";
 
 export type ThemeProviderProps = {
   children: React.ReactNode;
@@ -18,6 +19,36 @@ const theme: ThemeOptions = {
         root: {
           overflowY: "scroll",
           fontFamily: "Inter",
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontSize: 14,
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+          transition: "background-color 200ms",
+          "&:hover": {
+            boxShadow: "none",
+            backgroundColor: colors.sky[50],
+            backgroundOpacity: "75%",
+          },
+          "& fieldset": {
+            borderColor: colors.gray[200],
+          },
+          "&:hover > fieldset.MuiOutlinedInput-notchedOutline": {
+            borderColor: colors.gray[200],
+          },
+          "& .MuiSelect-outlined": {
+            paddingTop: 8,
+            paddingBottom: 8,
+          },
         },
       },
     },

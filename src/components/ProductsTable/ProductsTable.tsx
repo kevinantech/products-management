@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import { useContext } from "react";
 import { ProductsContext } from "../../contexts/Products";
 import {
@@ -8,22 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/Table";
+import { format } from "../../utils/format-date";
 
 const cut = (str: string) =>
   str.length > 15 ? `${str.substring(0, 20).trim()}...` : str.trim();
 
-const format = (str: string) => {
-  return new Date(str).toLocaleDateString("es-ES", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-};
-
 export type ProductsTableProps = {};
 
 const ProductsTable: React.FC<ProductsTableProps> = () => {
-  const { products, handleDelete } = useContext(ProductsContext);
+  const { products, handleDelete, handleProductView } =
+    useContext(ProductsContext);
 
   return (
     <Table>
@@ -48,7 +42,14 @@ const ProductsTable: React.FC<ProductsTableProps> = () => {
               </TableCell>
               <TableCell>{product.quantity}</TableCell>
               <TableCell>{format(product.createdAt)}</TableCell>
-              <TableCell>
+              <TableCell className="flex gap-2">
+                <button
+                  title="Ver mas"
+                  onClick={() => handleProductView(product)}
+                  className="p-2 rounded-lg transition-colors duration-150 ease-in-out hover:bg-blue-200"
+                >
+                  <Eye className="h-4 w-4 text-blue-400" />
+                </button>
                 <button
                   title="Eliminar"
                   onClick={() => handleDelete(product.code)}

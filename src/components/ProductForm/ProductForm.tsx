@@ -58,11 +58,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ open, onClose }) => {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <div className="absolute inset-0 bottom-auto m-auto my-20 w-max max-w-80 md:max-w-md space-y-4 p-6 rounded-lg bg-white">
+      <div className="absolute inset-0 bottom-auto m-auto my-10 w-max max-w-80 md:max-w-md p-6 rounded-lg bg-white">
         <button onClick={onClose} className="absolute top-4 right-4">
           <X className="h-4 w-4" />
         </button>
-        <div>
+        <div className="mt-5 mb-10">
           <h3 className="text-lg font-semibold">Agregar Nuevo Producto</h3>
           <p className="mt-1 text-sm text-gray-600">
             Complete los detalles del producto a continuación
