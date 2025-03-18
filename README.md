@@ -56,7 +56,7 @@ Selecciona el comando dependiendo del manejador de paquetes que utilices.
 2. **Iniciar servidor de previsualización**
 
    ```bash
-      npm preview
+      npm run preview
       pnpm preview
       yarn preview
    ```
