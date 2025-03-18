@@ -10,21 +10,38 @@ export type ThemeProviderProps = {
 
 const theme: ThemeOptions = {
   typography: {
-    fontFamily: "inherit",
+    fontFamily: "Inter",
   },
   components: {
+    MuiModal: {
+      styleOverrides: {
+        root: {
+          fontFamily: "Inter",
+        },
+      },
+    },
     MuiTextField: {
       defaultProps: {
         size: "small",
       },
     },
-    /* MuiFormControlLabel: {
+    MuiOutlinedInput: {
       styleOverrides: {
         root: {
           fontSize: 14,
+          paddingTop: 4,
+          paddingBottom: 4,
+          borderRadius: 6,
         },
       },
-    }, */
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          marginTop: 8,
+        },
+      },
+    },
     MuiButton: {
       defaultProps: {
         variant: "contained",
@@ -32,7 +49,7 @@ const theme: ThemeOptions = {
       },
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: 6,
           fontWeight: 500,
           textTransform: "none",
           boxShadow: "none",

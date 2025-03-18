@@ -18,7 +18,7 @@ function App() {
             </p>
           </div>
           <Button
-            startIcon={<Plus className="h-4 w-4" />}
+            startIcon={<Plus className="h-4 w-4 mr-2" />}
             onClick={() => setProductFormOpen(true)}
             size="large"
           >
@@ -26,7 +26,7 @@ function App() {
           </Button>
         </div>
         <div className="p-6">
-          <nav className="text-right mb-4">
+          <nav className="flex items-center justify-end mb-4">
             Ordenar por:
             <button className="p-2 rounded border border-gray-200 transition-colors duration-200 hover:bg-sky-50 hover:bg-opacity-75">
               <ArrowDownUp className="h-4 w-4" />
@@ -38,7 +38,10 @@ function App() {
           Total de productos: {products.length}
         </p>
       </div>
-      <ProductForm open={isProductFormOpen} />
+      <ProductForm
+        open={isProductFormOpen}
+        onClose={() => setProductFormOpen(false)}
+      />
     </main>
   );
 }
