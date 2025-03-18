@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Modal, TextField } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { Product, ProductSchema } from "../../models/product";
-import { ProductsContext } from "../../contexts/Products";
-import { useContext } from "react";
 import { X } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { ProductsContext } from "../../contexts/Products";
+import { Product, ProductSchema } from "../../models/product";
 import { Label } from "../ui/Label";
+import styles from "./ProductForm.module.css";
 
 export type ProductFormProps = {
   open: boolean;
@@ -18,18 +19,25 @@ const useProductForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
   } = useForm<Product>({
     resolver: zodResolver(ProductSchema),
   });
-  const { handleCreate } = useContext(ProductsContext);
+  const { products, handleCreate } = useContext(ProductsContext);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  console.log({
-    code: watch("code"),
-    quantity: watch("quantity"),
-  });
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => setSuccess(false), 3000);
+    }
+  }, [success]);
 
   const onSuccess = (data: Product) => {
+    if (products?.some((p) => p.code === data.code)) {
+      return setError("El código ya esta en uso");
+    }
+    if (error) setError("");
+    if (!success) setSuccess(true);
     handleCreate(data);
     reset();
   };
@@ -39,15 +47,18 @@ const useProductForm = () => {
     handleSubmit,
     onSuccess,
     errors,
+    error,
+    success,
   };
 };
 
 const ProductForm: React.FC<ProductFormProps> = ({ open, onClose }) => {
-  const { register, handleSubmit, errors, onSuccess } = useProductForm();
+  const { register, handleSubmit, errors, onSuccess, error, success } =
+    useProductForm();
 
   return (
-    <Modal open={open} onClose={onClose} className="relative">
-      <div className="absolute inset-0 bottom-auto m-auto mt-20 w-max max-w-80 md:max-w-md space-y-4 p-6 rounded-lg bg-white">
+    <Modal open={open} onClose={onClose}>
+      <div className="absolute inset-0 bottom-auto m-auto my-20 w-max max-w-80 md:max-w-md space-y-4 p-6 rounded-lg bg-white">
         <button onClick={onClose} className="absolute top-4 right-4">
           <X className="h-4 w-4" />
         </button>
@@ -60,14 +71,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ open, onClose }) => {
         <form className="space-y-4 text-sm" onSubmit={handleSubmit(onSuccess)}>
           <div className="flex gap-2">
             <div>
-              <Label htmlFor="code">Codigo *</Label>
+              <Label htmlFor="code">Código *</Label>
               <TextField
                 id="code"
                 type="number"
                 error={!!errors.code}
                 helperText={errors.code?.message}
                 {...register("code", {
-                  setValueAs: (value) => (isNaN(value) ? 0 : Number(value)),
+                  setValueAs: (value) =>
+                    !isNaN(value) && value > 0 ? Number(value) : undefined,
                 })}
               />
             </div>
@@ -79,7 +91,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ open, onClose }) => {
                 error={!!errors.quantity}
                 helperText={errors.quantity?.message}
                 {...register("quantity", {
-                  setValueAs: (value) => (isNaN(value) ? 0 : Number(value)),
+                  setValueAs: (value) =>
+                    !isNaN(value) && value > 0 ? Number(value) : undefined,
                 })}
               />
             </div>
@@ -108,12 +121,25 @@ const ProductForm: React.FC<ProductFormProps> = ({ open, onClose }) => {
             <Label htmlFor="description">Creación *</Label>
             <TextField
               id="createdAt"
+              type="date"
               error={!!errors.createdAt}
               helperText={errors.createdAt?.message}
               {...register("createdAt")}
               fullWidth
             />
           </div>
+          {!!error && (
+            <p className="py-3 px-5 rounded-md bg-red-200 text-red-800">
+              {error}
+            </p>
+          )}
+          {!!success && (
+            <p
+              className={`${styles.success} py-3 px-5 rounded-md bg-green-200 text-green-800`}
+            >
+              Producto agregado correctamente
+            </p>
+          )}
           <div className="flex justify-end">
             <Button className="mt-8" type="submit">
               Guardar Producto

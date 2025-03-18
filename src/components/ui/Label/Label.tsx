@@ -1,5 +1,3 @@
-"use client";
-
 export type LabelProps = Omit<
   React.LabelHTMLAttributes<HTMLLabelElement>,
   "className"

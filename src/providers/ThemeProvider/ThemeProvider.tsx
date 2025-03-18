@@ -16,6 +16,7 @@ const theme: ThemeOptions = {
     MuiModal: {
       styleOverrides: {
         root: {
+          overflowY: "scroll",
           fontFamily: "Inter",
         },
       },
@@ -53,7 +54,7 @@ const theme: ThemeOptions = {
           fontWeight: 500,
           textTransform: "none",
           boxShadow: "none",
-          "&:hover, &:active": { boxShadow: "none" },
+          "&:hover, &:focus, &:active": { boxShadow: "none" },
         },
       },
     },

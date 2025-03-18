@@ -1,0 +1,17 @@
+.success {
+  animation: success-animation 3s forwards;
+}
+
+@keyframes success-animation {
+  0% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

@@ -3,6 +3,8 @@ import { ArrowDownUp, Plus } from "lucide-react";
 import { useContext, useState } from "react";
 import { ProductsContext } from "./contexts/Products";
 import { ProductForm } from "./components/ProductForm";
+import { ProductsTable } from "./components/ProductsTable";
+
 function App() {
   const [isProductFormOpen, setProductFormOpen] = useState(false);
   const { products } = useContext(ProductsContext);
@@ -32,9 +34,9 @@ function App() {
               <ArrowDownUp className="h-4 w-4" />
             </button>
           </nav>
-          <div className="rounded-lg border border-gray-200">{"Content"}</div>
+          <ProductsTable />
         </div>
-        <p className="pt-3 pb-6 px-6 text-sm text-gray-600 bg-sky-50 bg-opacity-50">
+        <p className="pt-3 pb-6 px-6 text-sm text-gray-600 bg-sky-50 bg-opacity-75">
           Total de productos: {products.length}
         </p>
       </div>
